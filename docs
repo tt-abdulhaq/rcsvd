@@ -1,0 +1,56 @@
+    Read CSV File:
+        Read data from a CSV file and return it as a structured format (e.g., Vec<Vec<String>>).
+        [implemented]
+
+    Write to CSV File:
+        Write data from a structured format to a CSV file.
+        [implemented]
+
+    Custom Delimiters:
+        Allow users to specify custom delimiters (comma, semicolon, tab, etc.).
+        [implemented]
+
+    Headers:
+        Support reading and writing CSV files with or without headers.
+
+    Row Manipulation:
+        Insert, update, or delete rows in a CSV file.
+
+    Column Manipulation:
+        Extract, insert, or delete columns in a CSV file.
+
+    Filtering:
+        Provide the ability to filter rows based on certain conditions.
+
+    Sorting:
+        Allow users to sort rows based on a specific column.
+
+    CSV Options:
+        Allow users to specify additional options, such as quoting characters, escape characters, and quoting behavior.
+
+    Error Handling:
+        Implement robust error handling to handle issues like file not found, parsing errors, etc.
+
+    Concurrency:
+        Design the crate to support concurrent operations on CSV files.
+
+    Streaming:
+        Provide streaming capabilities for reading and writing large CSV files to manage memory efficiently.
+
+    Conversion:
+        Allow users to convert CSV data to and from other formats (e.g., JSON, XML).
+
+    Header Auto-detection:
+        Include functionality to automatically detect headers when reading a CSV file.
+
+    Validation:
+        Implement validation checks for CSV data to ensure it adheres to specified formats or constraints.
+
+    Performance Optimization:
+        Optimize performance for large CSV files, and consider providing options for memory-mapped file operations.
+
+    Documentation:
+        Create comprehensive documentation with examples to guide users on how to use the crate.
+
+    Testing:
+        Include unit tests to ensure the correctness and reliability of the CSV manipulation crate.
