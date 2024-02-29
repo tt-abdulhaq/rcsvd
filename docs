@@ -12,6 +12,7 @@
 
     Headers:
         Support reading and writing CSV files with or without headers.
+        [implemented]
 
     Row Manipulation:
         Insert, update, or delete rows in a CSV file.

@@ -1,70 +1,69 @@
-use std::io::{BufRead, BufReader, BufWriter, Write};
-use std::{fs::File,path::Path};
-use std::error::Error;
+use std::{fs::File, io::{BufRead, BufReader, BufWriter, Error, Write}, path::Path};
 
-#[derive(Debug)]
-struct CustomError(&'static str);
 
-impl std::fmt::Display for CustomError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-impl Error for CustomError {}
 
-#[derive(Debug)]
+
+
 struct CsvHandler {
-    data: Vec<Vec<String>>
+    data: Vec<Vec<String>>,
+    headers: Option<Vec<String>>
 }
+
 impl CsvHandler {
-    fn new()->Self{
+    fn new() -> Self {
         CsvHandler{
-            data: Vec::new()
+            data: Vec::new(),
+            headers: None
         }
     }
 
-    fn read_csv(&mut self, file_path: &str, delimiter: &str) -> Result<(), Box<dyn Error>> {
+
+    fn read_csv(&mut self, file_path: &str, delimeter: &str, header: bool) -> Result<(), Error> {
         let path = Path::new(file_path);
-
-        if !path.exists() {
-            return Err(Box::new(CustomError("File not exist")));
-        }
-
         let f = File::open(path)?;
 
-        let reader = BufReader::new(f);
-
-        for line in reader.lines() {
-            let record = line?;
-            let row: Vec<String> = record.split(delimiter).map(|s| s.trim().to_string()).collect();
-            self.data.push(row);
+        for (index, line) in BufReader::new(f).lines().enumerate(){
+            let record = line?.split(delimeter).map(|s| s.trim().to_string()).collect();
+            
+            if header && index == 0 {
+                self.headers = Some(record);
+            }else {
+                self.data.push(record);
+            } 
         }
 
         Ok(())
     }
-
-    fn to_csv(&self, file_path: &str, delimiter: &str) -> Result<(), Box<dyn Error>> {
+    fn to_csv(&mut self, file_path: &str, delimeter: &str) -> Result<(), Error> {
         let path = Path::new(file_path);
-        let file = File::create(path)?;
 
-        let mut writer = BufWriter::new(file);
+        let f = match File::create(path) {
+            Ok(f) => f,
+            Err(e) => return Err(e),
+        };
 
-        for row in &self.data {
-            let line: Vec<String> = row.iter().map(|item| item.to_string()).collect();
-            let line = line.join(delimiter);
-            writer.write(line.as_bytes())?;
-            writer.write(b"\n")?;
+        let mut writer = BufWriter::new(f);
+
+        if let Some(headers) = &self.headers {
+            let header_line = headers.join(delimeter);
+            writeln!(writer, "{}", header_line)?;
+        }
+
+        for record in &self.data {
+            let line: Vec<String> = record.iter().map(|s| s.trim().to_string()).collect();
+            let line = line.join(delimeter);
+            writeln!(writer, "{}", line)?;
+
         }
 
         Ok(())
     }
 }
+
 
 fn main() {
     let mut csv = CsvHandler::new();
-    let _ = csv.read_csv("./src/test.csv", " ");
+    let _ = csv.read_csv("./src/test.csv", ",", true);
     println!("{:?}", csv.data);
-    let _ = csv.to_csv("./test.csv", ",");
-
-
+    let _ = csv.to_csv("./test.csv", "-");
 }
