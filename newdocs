@@ -1,0 +1,27 @@
+    Reader Objects:
+        csv.reader(): Iterates over lines in a CSV file, parsing them into lists.
+
+    Writer Objects:
+        csv.writer(): Writes rows to a CSV file.
+        writerow(row): Writes a single row.
+        writerows(rows): Writes multiple rows.
+
+    Dialects:
+        csv.register_dialect(): Registers or modifies a CSV dialect.
+        csv.get_dialect(): Retrieves the current dialect.
+
+    Sniffer:
+        csv.Sniffer(): Infers the format of a CSV file.
+
+    Reading and Writing with Custom Dialects:
+        csv.reader(file, dialect): Reads a CSV file using a specific dialect.
+        csv.writer(file, dialect): Writes to a CSV file using a specific dialect.
+
+    Delimiter and Quote Character:
+        delimiter: Specifies the character separating fields (default is ,).
+        quotechar: Specifies the character surrounding fields with special characters (default is ").
+
+    Handling Quotes:
+        quoting: Specifies when to use quotes for fields.
+
+    CSV File Reading Options:
